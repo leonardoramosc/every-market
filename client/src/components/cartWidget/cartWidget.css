@@ -1,0 +1,20 @@
+.cart-widget__wrapper {
+  text-decoration: none;
+  color: white;
+}
+
+.cart-widget {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.cart-widget__quantity {
+  position: absolute;
+  top: -16px;
+  left: -2px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
