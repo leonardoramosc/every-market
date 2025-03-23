@@ -1,6 +1,8 @@
 package models
 
+import "gorm.io/gorm"
+
 type ProductCategory struct {
-	ID           uint `json:"id"`
+	gorm.Model
   Name         string `json:"name" gorm:"uniqueIndex"`
 }
