@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"log"
+	"errors"
 
 	"github.com/leonardoramosc/every-market/internal/database"
 	"github.com/leonardoramosc/every-market/internal/database/models"
@@ -13,13 +13,17 @@ type productCategoryRepositoryPostgres struct {
 }
 
 func (repo *productCategoryRepositoryPostgres) CreateProductCategory(pc *models.ProductCategory) error {
-	if repo.db == nil {
-		log.Println("+++++++++++++++++++++++++++++++++")
-		log.Println("DATABASE IS NIL")
-		log.Println("+++++++++++++++++++++++++++++++++")
-	}
 	result := repo.db.Create(&pc)
 	return result.Error
+}
+
+func (repo *productCategoryRepositoryPostgres) GetProductCategoryByName(name string) (*models.ProductCategory, error) {
+	var pc models.ProductCategory
+	result := repo.db.Where("name = ?", name).First(&pc)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return nil, nil
+	}
+	return &pc, result.Error
 }
 
 func NewProductCategoryRepositoryPostgres() *productCategoryRepositoryPostgres {
