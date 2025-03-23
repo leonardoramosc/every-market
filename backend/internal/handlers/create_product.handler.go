@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -12,10 +13,25 @@ import (
 
 func CreateProductHandler(ctx *gin.Context) {
 	service := services.NewProductService()
+	categoryService := services.NewProductCategoryService()
 	var request dto.CreateProductDto
 
 	if err := ctx.ShouldBindJSON(&request); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	category, err := categoryService.GetProductCategoryById(request.CategoryID)
+
+	if err != nil {
+		message := "unable to create product"
+		log.Printf("\n%v. Error trying to validate category Reason: %v\n", message, err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": message})
+		return
+	}
+
+	if category == nil {
+		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": fmt.Sprintf("category with id=%v does not exist", request.CategoryID)})
 		return
 	}
 

@@ -27,6 +27,10 @@ func (pcs *_productCategoryService) CreateProductCategory(pc *dto.ProductCategor
 	return pcs.repo.CreateProductCategory(model)
 }
 
+func (pcs *_productCategoryService) GetProductCategoryById(id int) (*models.ProductCategory, error) {
+	return pcs.repo.GetProductCategoryById(id)
+}
+
 func NewProductCategoryService() *_productCategoryService {
 	if productCategoryService == nil {
 		repo := repository.NewProductCategoryRepositoryPostgres()

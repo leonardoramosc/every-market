@@ -13,7 +13,7 @@ type productCategoryRepositoryPostgres struct {
 }
 
 func (repo *productCategoryRepositoryPostgres) CreateProductCategory(pc *models.ProductCategory) error {
-	result := repo.db.Create(&pc)
+	result := repo.db.Create(pc)
 	return result.Error
 }
 
@@ -23,6 +23,17 @@ func (repo *productCategoryRepositoryPostgres) GetProductCategoryByName(name str
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}
+	return &pc, result.Error
+}
+
+func (repo *productCategoryRepositoryPostgres) GetProductCategoryById(id int) (*models.ProductCategory, error) {
+	var pc models.ProductCategory
+	result := repo.db.First(&pc, id)
+
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return nil, nil
+	}
+
 	return &pc, result.Error
 }
 

@@ -7,4 +7,5 @@ import (
 type ProductCategoryRepository interface {
 	CreateProductCategory(pc *models.ProductCategory) error
 	GetProductCategoryByName(name string) (*models.ProductCategory, error)
+	GetProductCategoryById(id int) (*models.ProductCategory, error)
 }
