@@ -36,7 +36,7 @@ func GetDatabaseClient() *gorm.DB {
 }
 
 func RunMigrations() {
-	err := db.AutoMigrate(models.ProductCategory{}, models.Product{})
+	err := db.AutoMigrate(models.ProductCategory{}, models.Product{}, models.Inventory{})
 
 	if err != nil {
 		log.Fatal("Unable to run migrations", err.Error())

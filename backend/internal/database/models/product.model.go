@@ -11,4 +11,6 @@ type Product struct {
 
 	ProductCategoryID int
 	ProductCategory ProductCategory
+
+	Inventory Inventory
 }
