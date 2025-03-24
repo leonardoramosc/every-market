@@ -6,4 +6,5 @@ import (
 
 type ProductRepository interface {
 	CreateProduct(product *models.Product) (*models.Product, error)
+	ListProducts(page int, pageSize int) (*[]models.Product, error)
 }

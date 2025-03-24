@@ -23,6 +23,10 @@ func (ps *_productService) CreateProduct(product *dto.CreateProductDto) (*models
 	return ps.repo.CreateProduct(&pm)
 }
 
+func (ps *_productService) ListProducts(page int, pageSize int) (*[]models.Product, error) {
+	return ps.repo.ListProducts(page, pageSize)
+}
+
 func NewProductService() *_productService {
 	if productService == nil {
 		repo := repository.NewProductRepositoryPostgres()

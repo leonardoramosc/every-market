@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/leonardoramosc/every-market/internal/dto"
-	"github.com/leonardoramosc/every-market/internal/response"
+	"github.com/leonardoramosc/every-market/internal/responses"
 	"github.com/leonardoramosc/every-market/internal/services"
 )
 
@@ -44,7 +44,7 @@ func CreateProductHandler(ctx *gin.Context) {
 		return
 	}
 
-	response := response.ProductResponse{
+	response := responses.ProductResponse{
 		Id:          int(newProduct.ID),
 		Name:        newProduct.Name,
 		Description: newProduct.Description,

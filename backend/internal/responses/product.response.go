@@ -1,4 +1,6 @@
-package response
+package responses
+
+import "time"
 
 type ProductResponse struct {
 	Id          int     `json:"id"`
@@ -7,4 +9,5 @@ type ProductResponse struct {
 	Price       float64 `json:"price"`
 	ImageURL    string  `json:"imageURL"`
 	CategoryID  int     `json:"categoryId"`
+	CreatedAt time.Time `json:"createdAt"`
 }
