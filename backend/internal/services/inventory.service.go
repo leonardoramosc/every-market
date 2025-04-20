@@ -17,50 +17,92 @@ type _inventoryService struct {
 	productService *_productService
 }
 
-func (ps *_inventoryService) CreateInventory(inventory *dto.CreateInventoryDto) (*models.Inventory, error) {
+func (inventoryService *_inventoryService) CreateInventory(inventory *dto.CreateInventoryDto) (*models.Inventory, []error) {
 	i := models.Inventory{
 		ProductID: inventory.ProductID,
 		Stock:     inventory.Stock,
 	}
-	var product *models.Product
-	var existingInventory *models.Inventory
-	var productErr, inventoryErr error
 
+	errCh := inventoryService.validateInventoryForProduct(
+		inventoryService.validateInventory(i.ProductID),
+		inventoryService.validateProduct(i.ProductID),
+	)
+
+	var errors []error
+	for err := range errCh {
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return nil, errors
+	}
+
+	newInventory, err := inventoryService.repo.CreateInventory(&i)
+
+	if err != nil {
+		errors = append(errors, err)
+		return nil, errors
+	}
+
+	return newInventory, nil
+}
+
+func (inventoryService *_inventoryService) validateInventoryForProduct(errorChannels ...<-chan error) <-chan error {
+	outputCh := make(chan error)
 	var wg sync.WaitGroup
 
-	wg.Add(2)
+	for _, errCh := range errorChannels {
+		wg.Add(1)
+		go func(ch <-chan error) {
+			defer wg.Done()
+			for err := range ch {
+				outputCh <- err
+			}
+		}(errCh)
+	}
 
 	go func() {
-		defer wg.Done()
-		product, productErr = ps.productService.GetProductById(i.ProductID)
+		wg.Wait()
+		close(outputCh)
 	}()
 
+	return outputCh
+}
+
+func (inventoryService *_inventoryService) validateProduct(productId int) <-chan error {
+	ch := make(chan error)
 	go func() {
-		defer wg.Done()
-		existingInventory, inventoryErr = ps.repo.GetInventoryByProduct(i.ProductID)
+		defer close(ch)
+		product, productErr := inventoryService.productService.GetProductById(productId)
+		if productErr != nil {
+			log.Printf("\nunable to get product with id=%v\n", productId)
+			ch <- productErr
+		}
+
+		if product == nil {
+			ch <- exceptions.ErrProductNotExistForInventory
+		}
 	}()
 
-	wg.Wait()
+	return ch
+}
 
-	if productErr != nil {
-		log.Printf("\nunable to get product with id=%v\n", i.ProductID)
-		return nil, productErr
-	}
+func (inventoryService *_inventoryService) validateInventory(productId int) <-chan error {
+	ch := make(chan error)
+	go func() {
+		defer close(ch)
+		existingInventory, inventoryErr := inventoryService.repo.GetInventoryByProduct(productId)
+		if inventoryErr != nil {
+			log.Println("unable to validate if inventory already exist")
+			ch <- inventoryErr
+		}
 
-	if inventoryErr != nil {
-		log.Println("unable to validate if inventory already exist")
-		return nil, inventoryErr
-	}
+		if existingInventory != nil {
+			ch <- exceptions.ErrInventoryAlreadyExistForProduct
+		}
+	}()
 
-	if existingInventory != nil {
-		return nil, exceptions.ErrInventoryAlreadyExistForProduct
-	}
-
-	if product == nil {
-		return nil, exceptions.ErrProductNotExistForInventory
-	}
-
-	return ps.repo.CreateInventory(&i)
+	return ch
 }
 
 func NewInventoryService() *_inventoryService {
