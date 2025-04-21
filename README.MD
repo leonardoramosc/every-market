@@ -7,7 +7,7 @@
 
 ## Aplicación para venta de productos electrónicos
 
-EveryMarket es una aplicación que está construida con ReactJs (generada con create-react-app) en el frontend y Firebase como base de datos. El objetivo es que los usuarios puedan comprar productos electrónicos. Nuestros productos están dividos en las siguientes categorías:
+EveryMarket es una aplicación que está construida con ReactJs (generada con create-react-app) en el frontend e inicialmente con Firebase como base de datos. El objetivo es que los usuarios puedan comprar productos electrónicos. Nuestros productos están dividos en las siguientes categorías:
 
 - Celulares.
 - Computadoras y laptops.
