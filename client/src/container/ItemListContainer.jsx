@@ -43,7 +43,7 @@ const ItemListContainer = () => {
   return (
     <div>
       {showSpinner && <CustomSpinner />}
-      <ItemList items={products} />
+      <ItemList items={products ?? []} />
     </div>
   );
 };

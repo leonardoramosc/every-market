@@ -31,6 +31,10 @@ func (pcs *_productCategoryService) GetProductCategoryById(id int) (*models.Prod
 	return pcs.repo.GetProductCategoryById(id)
 }
 
+func (pcs *_productCategoryService) ListProductCategories(page int, pageSize int) ([]models.ProductCategory, error) {
+	return pcs.repo.ListProductCategories(page, pageSize)
+}
+
 func NewProductCategoryService() *_productCategoryService {
 	if productCategoryService == nil {
 		repo := repository.NewProductCategoryRepositoryPostgres()

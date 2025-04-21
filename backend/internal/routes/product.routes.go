@@ -9,4 +9,5 @@ func registerProductRoutes() {
 	productCategoryRoutes := router.Group("/api/products")
 	productCategoryRoutes.GET("/", handlers.ListProductsHandler)
 	productCategoryRoutes.POST("/", handlers.CreateProductHandler)
+	productCategoryRoutes.GET("/category/:category", handlers.ListProductsByCategoryHandler)
 }

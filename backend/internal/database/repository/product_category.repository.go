@@ -12,6 +12,7 @@ type ProductCategoryRepository interface {
 	CreateProductCategory(pc *models.ProductCategory) error
 	GetProductCategoryByName(name string) (*models.ProductCategory, error)
 	GetProductCategoryById(id int) (*models.ProductCategory, error)
+	ListProductCategories(page int, pageSize int) ([]models.ProductCategory, error)
 }
 
 type productCategoryRepositoryPostgres struct {
@@ -41,6 +42,13 @@ func (repo *productCategoryRepositoryPostgres) GetProductCategoryById(id int) (*
 	}
 
 	return &pc, result.Error
+}
+
+func (repo *productCategoryRepositoryPostgres) ListProductCategories(page int, pageSize int) ([]models.ProductCategory, error) {
+	var categories []models.ProductCategory
+	result := repo.db.Scopes(database.Paginate(page, pageSize)).Find(&categories)
+
+	return categories, result.Error
 }
 
 func NewProductCategoryRepositoryPostgres() *productCategoryRepositoryPostgres {

@@ -27,6 +27,10 @@ func (ps *_productService) ListProducts(page int, pageSize int) (*[]models.Produ
 	return ps.repo.ListProducts(page, pageSize)
 }
 
+func (ps *_productService) ListProductsByCategory(category string, page int, pageSize int) (*[]models.Product, error) {
+	return ps.repo.ListProductsByCategory(category, page, pageSize)
+}
+
 func (ps *_productService) GetProductById(id int) (*models.Product, error) {
 	return ps.repo.GetProductById(id)
 }

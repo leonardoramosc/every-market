@@ -6,6 +6,10 @@ class BackendService {
     this._service = service;
   }
 
+  getCategories() {
+    return this._service.getCategories()
+  }
+
   getProductsByCategory(category) {
     return this._service.getProductsByCategory(category);
   }

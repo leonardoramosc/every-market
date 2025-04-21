@@ -5,11 +5,24 @@ import CartWidget from "../cartWidget/cartWidget";
 import { Link, NavLink } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { cartContext } from "../../cartContext";
+import { backendService } from "../../services/backend/backend.service";
 
 const NavBar = () => {
   const [cartItemstotal, setCartItemsTotal] = useState(0);
+  const [categories, setCategories] = useState([]);
 
   const { cartItems } = useContext(cartContext);
+
+  useEffect(() => {
+    backendService
+      .getCategories()
+      .then((categories) => {
+        setCategories(categories);
+      })
+      .catch((err) => {
+        console.log(`unable to fetch categories`, err);
+      });
+  }, []);
 
   useEffect(() => {
     let temp = 0;
@@ -29,7 +42,6 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="m-auto">
-
             {cartItemstotal > 0 && (
               <NavLink
                 className="navbar__categories--item cart__mobile"
@@ -39,7 +51,17 @@ const NavBar = () => {
               </NavLink>
             )}
 
-            <NavLink
+            {categories.map((category) => (
+              <NavLink
+              key={category.name}
+                className="navbar__categories--item"
+                to={`/category/${category.name}`}
+              >
+                {category.name}
+              </NavLink>
+            ))}
+
+            {/* <NavLink
               className="navbar__categories--item"
               to="/category/celulares"
             >
@@ -62,7 +84,7 @@ const NavBar = () => {
               to="/category/videojuegos"
             >
               Videojuegos
-            </NavLink>
+            </NavLink> */}
           </Nav>
           {/* <Nav>
             <CartWidget />

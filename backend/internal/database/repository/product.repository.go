@@ -11,6 +11,7 @@ import (
 type ProductRepository interface {
 	CreateProduct(product *models.Product) (*models.Product, error)
 	ListProducts(page int, pageSize int) (*[]models.Product, error)
+	ListProductsByCategory(category string, page int, pageSize int) (*[]models.Product, error)
 	GetProductById(id int) (*models.Product, error)
 }
 
@@ -26,6 +27,17 @@ func (repo *productRepositoryPostgres) CreateProduct(product *models.Product) (*
 func (repo *productRepositoryPostgres) ListProducts(page int, pageSize int) (*[]models.Product, error) {
 	var products []models.Product
 	result := repo.db.Scopes(database.Paginate(page, pageSize)).Preload("Inventory").Find(&products)
+
+	return &products, result.Error
+}
+
+func (repo *productRepositoryPostgres) ListProductsByCategory(category string, page int, pageSize int) (*[]models.Product, error) {
+	var products []models.Product
+	result := repo.db.
+		Joins("JOIN product_categories ON product_categories.id = products.product_category_id").
+		Where("product_categories.name = ?", category).
+		Scopes(database.Paginate(page, pageSize)).
+		Find(&products)
 
 	return &products, result.Error
 }
