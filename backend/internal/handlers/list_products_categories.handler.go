@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -12,7 +11,6 @@ import (
 )
 
 func ListProductCategoriesHandler(ctx *gin.Context) {
-	fmt.Println("++++++++++++++ LLEGO AL HANDLER ++++++++++++++++")
 	service := services.NewProductCategoryService()
 
 	page, pageSize := utils.GetPaginationParams(ctx)

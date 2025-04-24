@@ -11,7 +11,7 @@ import (
 type ProductCategoryRepository interface {
 	CreateProductCategory(pc *models.ProductCategory) error
 	GetProductCategoryByName(name string) (*models.ProductCategory, error)
-	GetProductCategoryById(id int) (*models.ProductCategory, error)
+	GetProductCategoryById(id uint) (*models.ProductCategory, error)
 	ListProductCategories(page int, pageSize int) ([]models.ProductCategory, error)
 }
 
@@ -33,7 +33,7 @@ func (repo *productCategoryRepositoryPostgres) GetProductCategoryByName(name str
 	return &pc, result.Error
 }
 
-func (repo *productCategoryRepositoryPostgres) GetProductCategoryById(id int) (*models.ProductCategory, error) {
+func (repo *productCategoryRepositoryPostgres) GetProductCategoryById(id uint) (*models.ProductCategory, error) {
 	var pc models.ProductCategory
 	result := repo.db.First(&pc, id)
 

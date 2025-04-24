@@ -63,7 +63,7 @@ func (repo *productRepositoryPostgres) ListProductsByCategory(category string, p
 
 func (repo *productRepositoryPostgres) GetProductById(id int) (*models.Product, error) {
 	var p models.Product
-	result := repo.db.First(&p, id)
+	result := repo.db.Preload("ProductImages").First(&p, id)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return nil, nil

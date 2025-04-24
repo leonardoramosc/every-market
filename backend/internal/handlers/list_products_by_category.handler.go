@@ -40,7 +40,7 @@ func ListProductsByCategoryHandler(ctx *gin.Context) {
 		res = append(
 			res,
 			responses.ProductResponse{
-				Id:          int(product.ID),
+				Id:          uint(product.ID),
 				Name:        product.Name,
 				Description: product.Description,
 				Price:       product.Price,

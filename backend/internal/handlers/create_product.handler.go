@@ -45,7 +45,7 @@ func CreateProductHandler(ctx *gin.Context) {
 	}
 
 	response := responses.ProductResponse{
-		Id:          int(newProduct.ID),
+		Id:          uint(newProduct.ID),
 		Name:        newProduct.Name,
 		Description: newProduct.Description,
 		ImageURL:    newProduct.ImageURL,

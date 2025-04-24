@@ -9,7 +9,7 @@ type Product struct {
 	Price       float64
 	ImageURL    string
 
-	ProductCategoryID int
+	ProductCategoryID uint
 	ProductCategory   ProductCategory
 
 	Inventory Inventory

@@ -27,7 +27,7 @@ func (pcs *_productCategoryService) CreateProductCategory(pc *dto.ProductCategor
 	return pcs.repo.CreateProductCategory(model)
 }
 
-func (pcs *_productCategoryService) GetProductCategoryById(id int) (*models.ProductCategory, error) {
+func (pcs *_productCategoryService) GetProductCategoryById(id uint) (*models.ProductCategory, error) {
 	return pcs.repo.GetProductCategoryById(id)
 }
 
