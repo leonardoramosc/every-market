@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"log"
 
 	"github.com/leonardoramosc/every-market/internal/database"
 	"github.com/leonardoramosc/every-market/internal/database/models"
@@ -9,7 +10,7 @@ import (
 )
 
 type ProductRepository interface {
-	CreateProduct(product *models.Product) (*models.Product, error)
+	CreateProduct(product *models.Product, images []string) (*models.Product, error)
 	ListProducts(page int, pageSize int) (*[]models.Product, error)
 	ListProductsByCategory(category string, page int, pageSize int) (*[]models.Product, error)
 	GetProductById(id int) (*models.Product, error)
@@ -19,9 +20,27 @@ type productRepositoryPostgres struct {
 	db *gorm.DB
 }
 
-func (repo *productRepositoryPostgres) CreateProduct(product *models.Product) (*models.Product, error) {
-	result := repo.db.Create(product)
+func (repo *productRepositoryPostgres) CreateProduct(product *models.Product, images []string) (*models.Product, error) {
+	result := repo.db.Create(&product)
+	_, err := repo.CreateImages(product.ID, images)
+
+	if err != nil {
+		log.Printf("unable to create images for product %v\n", product.ID)
+	}
+
 	return product, result.Error
+}
+
+func (repo *productRepositoryPostgres) CreateImages(productID uint, images []string) ([]models.ProductImage, error) {
+	var productImages []models.ProductImage
+
+	for _, imageURL := range images {
+		productImage := models.ProductImage{ProductID: productID, URL: imageURL}
+		productImages = append(productImages, productImage)
+	}
+
+	result := repo.db.Create(&productImages)
+	return productImages, result.Error
 }
 
 func (repo *productRepositoryPostgres) ListProducts(page int, pageSize int) (*[]models.Product, error) {

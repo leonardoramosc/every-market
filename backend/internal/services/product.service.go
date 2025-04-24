@@ -20,7 +20,7 @@ func (ps *_productService) CreateProduct(product *dto.CreateProductDto) (*models
 		Price:       product.Price,
 		ProductCategoryID: product.CategoryID,
 	}
-	return ps.repo.CreateProduct(&pm)
+	return ps.repo.CreateProduct(&pm, product.Images)
 }
 
 func (ps *_productService) ListProducts(page int, pageSize int) (*[]models.Product, error) {
