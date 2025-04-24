@@ -51,7 +51,16 @@ class EveryMarketBackendService {
   }
 
   async getProductById(productId) {
-    return {}
+    try {
+      const response = await this.axiosInstance.get(`/products/${productId}`)
+      console.log(response.data)
+      return response.data
+    } catch (error) {
+      if (isAxiosError(error)) {
+        console.error(`error trying to get product`, error.response.data)
+      }
+      return null
+    }
   }
 
   createOrder(cartItems, buyer) {

@@ -49,7 +49,7 @@ const ItemDetail = ({ item }) => {
           {/* <img className="item-image__img" src={item.images[1]} alt="" /> */}
           <Carousel variant="dark">
             <Carousel.Item >
-              <img className="item-image__img" src={item.img} alt="Imagen número 1" />
+              <img className="item-image__img" src={item.imageURL} alt="Imagen número 1" />
             </Carousel.Item>
             {item?.images?.length > 0 &&
               item.images.map((itemImg, index) => {
