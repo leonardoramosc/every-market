@@ -3,7 +3,7 @@ package database
 import (
 	"log"
 
-	"github.com/leonardoramosc/every-market/config"
+	"github.com/leonardoramosc/every-market/internal/config"
 	"github.com/leonardoramosc/every-market/internal/database/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
