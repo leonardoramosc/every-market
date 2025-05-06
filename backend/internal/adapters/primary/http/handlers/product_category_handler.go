@@ -7,9 +7,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/leonardoramosc/every-market/internal/adapters/primary/http/dto"
+	"github.com/leonardoramosc/every-market/internal/adapters/primary/http/responses"
 	"github.com/leonardoramosc/every-market/internal/core/ports/input"
 	"github.com/leonardoramosc/every-market/internal/exceptions"
-	"github.com/leonardoramosc/every-market/internal/responses"
 	"github.com/leonardoramosc/every-market/pkg/httputil"
 )
 
