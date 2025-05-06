@@ -32,8 +32,8 @@ const CartItem = ({ cartItem }) => {
           <img className="delete-item-btn__image--mobile" src="https://img.icons8.com/color/48/000000/cancel--v1.png" alt=""/>
         </button>
         <div className="cart-item-details">
-          <img className="cart-item-image" src={item.img} alt={item.name} />
-          <h3 className="cart-item-title">{item.title}</h3>
+          <img className="cart-item-image" src={item.imageURL} alt={item.name} />
+          <h3 className="cart-item-title">{item.name}</h3>
         </div>
         <ItemCount
           stock={item.stock}
