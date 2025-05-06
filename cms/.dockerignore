@@ -1,0 +1,22 @@
+node_modules
+dist
+build
+.vite
+.vscode
+
+.git
+.gitignore
+
+Dockerfile
+docker-compose.yml
+.env
+.env.* # por si tenés .env.local, .env.production, etc.
+*.log
+npm-debug.log*
+pnpm-lock.yaml # si no se copia explícitamente
+yarn.lock # si usás yarn
+
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

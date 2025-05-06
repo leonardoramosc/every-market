@@ -19,6 +19,24 @@ services:
     restart: always
     environment:
       - EVERY_MARKET_API_URL=http://localhost:5000
+  
+  cms:
+    build:
+      context: ./cms
+      target: development
+    container_name: cms_service
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./cms:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: always
+    environment:
+      - EVERY_MARKET_API_URL=http://localhost:5000
 
   backend:
     build:
