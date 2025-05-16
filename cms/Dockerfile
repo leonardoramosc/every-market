@@ -22,5 +22,5 @@ CMD ["nginx", "-g", "daemon off;"]
 
 # Etapa de desarrollo con Hot Reload
 FROM base AS development
-EXPOSE 3000
+EXPOSE 3002
 CMD ["npm", "run", "dev"]
